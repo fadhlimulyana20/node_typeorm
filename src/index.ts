@@ -1,12 +1,22 @@
+import "reflect-metadata";
 import * as express from 'express';
-import { Server } from 'http';
-import { start } from 'repl';
 import { connectDB } from "./database/connection";
+import { buildSchema, Query, Resolver } from "type-graphql";
+import { ApolloServer } from "apollo-server-express";
+import { RegisterResolver } from "./modules/user/Register";
 
 const app = express();
 
-const port: Number = Number(process.env.PORT) || 3000;
+const port: Number = Number(process.env.PORT) || 5000;
 const startServer = async () => {
+  const schema = await buildSchema({
+    resolvers: [RegisterResolver]
+  });
+
+  const apolloServer = new ApolloServer({ schema });
+
+  apolloServer.applyMiddleware({ app });
+
   await app.listen(port, () => {
     console.log(`[Server] running on http://localhost:${port}`);
   });
