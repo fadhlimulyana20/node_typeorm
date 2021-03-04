@@ -21,11 +21,12 @@
       "mysql": "^2.14.1",
       "pg": "^8.5.1",
       "reflect-metadata": "^0.1.10",
+      "ts-node-dev": "^1.1.6",
       "type-graphql": "^1.1.1",
       "typeorm": "0.2.31"
    },
    "scripts": {
       "dev": "nodemon",
-      "start": "ts-node src/index.ts"
+      "start": "ts-node-dev --respawn src/index.ts"
    }
 }

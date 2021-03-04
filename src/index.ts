@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import * as express from 'express';
+import express from 'express';
 import { connectDB } from "./database/connection";
 import { buildSchema, Query, Resolver } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
