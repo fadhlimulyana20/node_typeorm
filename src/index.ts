@@ -10,8 +10,7 @@ import cors from 'cors';
 import { redis } from "./redis";
 import { LoginResolver } from "./modules/user/Login";
 import { MeResolver } from "./modules/user/Me";
-
-const app = express();
+import { authChecker } from "./modules/auth/authChecker";
 
 // implement Declaration merging on express-session:
 declare module 'express-session' {
@@ -20,14 +19,18 @@ declare module 'express-session' {
   }
 }
 
+const app = express();
+
+
 // Create port number
 const port: Number = Number(process.env.PORT) || 5000;
 
 // A Function to start server
 const startServer = async () => {
-  // Create GraphQl Schema
+  // Create GraphQl
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver]
+    resolvers: [RegisterResolver, LoginResolver, MeResolver],
+    authChecker
   });
   
   //Create apolloServer for graphQl

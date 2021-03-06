@@ -3,7 +3,6 @@ import {
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-  ValidationArguments,
 } from 'class-validator';
 import { User } from '../../../entity/User';
 
@@ -18,6 +17,7 @@ export class IsEmailAlreadyExistConstraint implements ValidatorConstraintInterfa
   }
 }
 
+// Export a decorator to check is email that user send is already used
 export function IsEmailAlreadyExist(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
