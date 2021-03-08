@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import { User } from "../../entity/User";
 import { RegisterInput } from "./register/RegisterInput";
 import { isAuth } from "../middleware/isAuth";
+import { SendMail } from "../utils/sendMail";
+import { createConfirmationUrl } from "../utils/createConfirmationUrl";
 
 @Resolver()
 export class RegisterResolver {
@@ -18,12 +20,15 @@ export class RegisterResolver {
   ): Promise<User>{
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = User.create({
+    const user = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword
     }).save();
+
+    const url = await createConfirmationUrl(user.id);
+    await SendMail(email, url);
 
     return user;
   }

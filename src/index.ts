@@ -11,6 +11,7 @@ import { redis } from "./redis";
 import { LoginResolver } from "./modules/user/Login";
 import { MeResolver } from "./modules/user/Me";
 import { authChecker } from "./modules/auth/authChecker";
+import { ConfirmUserResolver } from "./modules/user/ConfirmUser";
 
 // implement Declaration merging on express-session:
 declare module 'express-session' {
@@ -29,7 +30,7 @@ const port: Number = Number(process.env.PORT) || 5000;
 const startServer = async () => {
   // Create GraphQl
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver],
+    resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver],
     authChecker
   });
   

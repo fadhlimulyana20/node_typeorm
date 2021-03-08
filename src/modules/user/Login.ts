@@ -5,7 +5,7 @@ import { MyContext } from "../../types/MyContext";
 
 @Resolver()
 export class LoginResolver {
-  @Mutation(() => User)
+  @Mutation(() => User, { nullable: true })
   async Login(
     @Arg("email") email: string,
     @Arg("password") password: string,
@@ -20,7 +20,11 @@ export class LoginResolver {
     const valid = await bcrypt.compare(password, user.password);
 
     if(!valid) {
-      return null
+      return null;
+    }
+
+    if(!user.confirmed) {
+      return null;
     }
 
     ctx.req.session.userId = user.id;
