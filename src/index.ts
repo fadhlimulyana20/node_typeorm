@@ -30,7 +30,7 @@ const port: Number = Number(process.env.PORT) || 5000;
 const startServer = async () => {
   // Create GraphQl
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver],
+    resolvers: [__dirname + "/modules/**/*.ts"],
     authChecker
   });
   

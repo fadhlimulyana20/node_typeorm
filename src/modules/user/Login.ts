@@ -2,6 +2,7 @@ import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import bcrypt from 'bcryptjs';
 import { User } from "../../entity/User";
 import { MyContext } from "../../types/MyContext";
+import { AuthenticationError } from "apollo-server-errors";
 
 @Resolver()
 export class LoginResolver {
@@ -20,11 +21,11 @@ export class LoginResolver {
     const valid = await bcrypt.compare(password, user.password);
 
     if(!valid) {
-      return null;
+      throw new AuthenticationError('Invalid Password')
     }
 
     if(!user.confirmed) {
-      return null;
+      throw new AuthenticationError('Email is not verified')
     }
 
     ctx.req.session.userId = user.id;
